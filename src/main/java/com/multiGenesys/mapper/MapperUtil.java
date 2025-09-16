@@ -1,5 +1,6 @@
 package com.multiGenesys.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -8,13 +9,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class MapperUtil {
 
       private final ModelMapper modelMapper;
-
-      public MapperUtil(ModelMapper modelMapper) {
-            this.modelMapper = modelMapper;
-      }
 
       public <D, E> D toDto(E entity, Class<D> dtoClass) {
             return modelMapper.map(entity, dtoClass);

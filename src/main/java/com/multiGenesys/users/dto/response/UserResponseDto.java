@@ -9,9 +9,9 @@ import lombok.Setter;
 @Getter
 public class UserResponseDto {
 
-      private String username;
+      private Long id;
 
-      private String password;
+      private String username;
 
       private Role role;
 
