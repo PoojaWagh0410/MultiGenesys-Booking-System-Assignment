@@ -1,4 +1,9 @@
-1) POST /auth/login.
+![img_26.png](img_26.png)
+
+=========================================
+
+1) POST /auth/login
+
 ![img.png](img.png)
 ![img_1.png](img_1.png)
 
