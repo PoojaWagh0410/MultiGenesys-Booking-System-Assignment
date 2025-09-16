@@ -105,7 +105,6 @@ public class ResourceServiceImpl implements ResourceService {
             return ResponseEntity.ok(response);
       }
 
-
       @Override
       public ResponseEntity<ApiResponse<Void>> deleteResource(Long id) {
 
