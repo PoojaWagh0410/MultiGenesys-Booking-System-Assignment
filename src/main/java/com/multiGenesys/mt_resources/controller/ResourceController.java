@@ -1,6 +1,8 @@
 package com.multiGenesys.mt_resources.controller;
 
+import com.multiGenesys.common.ApiResponse;
 import com.multiGenesys.mt_resources.dao.request.ResourceRequestDto;
+import com.multiGenesys.mt_resources.dao.response.ResourceResponseDto;
 import com.multiGenesys.mt_resources.service.ResourceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,5 @@ public class ResourceController {
       ResponseEntity<?> deletResource(@PathVariable Long id){
             return resourceService.deleteResource(id);
       }
-
 
 }

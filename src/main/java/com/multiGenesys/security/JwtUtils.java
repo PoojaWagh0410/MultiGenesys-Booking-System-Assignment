@@ -34,7 +34,6 @@ public class JwtUtils {
         } catch (IllegalArgumentException e) {
             log.error("JWT claims string is empty: {}", e.getMessage());
         }
-
         return false;
     }
 
@@ -87,6 +86,15 @@ public class JwtUtils {
         claims.put("sub", deviceId);
         claims.put("userName", deviceId);
         return this.generateJwtToken(claims);
+    }
+
+    public Long extractUserId(String token) {
+        try {
+            final Claims claims = this.getClaimsFromToken(token);
+            return claims.get("userId", Long.class);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String getUsernameFromToken(String token) {
