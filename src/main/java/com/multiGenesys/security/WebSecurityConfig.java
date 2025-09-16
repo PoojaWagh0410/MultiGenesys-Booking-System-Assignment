@@ -89,8 +89,15 @@ public class WebSecurityConfig {
                               .requestMatchers(str).permitAll()
                               .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                               .requestMatchers(HttpMethod.POST, "/api/auth/login/**").permitAll()
-                        .requestMatchers("/**").permitAll()           // don't
+                              //Admin only
+                              .requestMatchers(HttpMethod.POST, "/resources").hasRole("ADMIN")
+                              .requestMatchers(HttpMethod.PUT, "/resources/**").hasRole("ADMIN")
+                              .requestMatchers(HttpMethod.DELETE, "/resources/**").hasRole("ADMIN")
+
+                              // USER or ADMIN: Fetch resources
+                              .requestMatchers(HttpMethod.GET, "/resources/**").hasAnyRole("USER", "ADMIN")
                               .anyRequest().authenticated())
+
                    .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                    .authenticationProvider(authenticationProvider())
                    .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPointJwt))
