@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: agency
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/BookingSystem-MultiGenesys?createDatabaseIfNotExist=true
+    username: root
+    password: root12345
+
+  hikari:
+    idle-timeout: 30000
+    max-lifetime: 60000
+    connection-timeout: 30000
+    minimum-idle: 5
+    maximum-pool-size: 10
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+server:
+  port: 7072
+
+  security:
+    user:
+      name: admin
+      password: admin
+
+execution:
+  jwt:
+    secret: MySuperSecureSecretKeyForJWTGeneration123!
+    expiration: 8400000
