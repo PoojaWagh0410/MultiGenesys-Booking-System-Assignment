@@ -36,7 +36,7 @@ public class ResourceServiceImpl implements ResourceService {
             ResourceResponseDto responseDto = mapperUtil.toDto(savedResource, ResourceResponseDto.class);
 
             response.responseMethod(HttpStatus.CREATED.value(), "Resource created successfully", responseDto);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+            return ResponseEntity.ok(response);
       }
 
       @Override
@@ -46,12 +46,15 @@ public class ResourceServiceImpl implements ResourceService {
             Optional<Resources> byId = resourceRepository.findById(id);
             if (byId.isEmpty()) {
                   response.responseMethod(HttpStatus.NOT_FOUND.value(), "Resource not found", null);
-                  return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+                  return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
+
             ResourceResponseDto responseDto = mapperUtil.toDto(byId.get(), ResourceResponseDto.class);
+
             response.responseMethod(HttpStatus.OK.value(), "Resource fetched successfully", responseDto);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return ResponseEntity.ok(response);
       }
+
 
       @Override
       public ResponseEntity<ApiResponse<List<ResourceResponseDto>>> getAllResources(int page, int size) {
@@ -68,20 +71,56 @@ public class ResourceServiceImpl implements ResourceService {
 
             if (dtos.isEmpty()) {
                   response.responseMethod(HttpStatus.NOT_FOUND.value(), "No resources found", null);
-                  return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+                  return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
 
             response.responseMethod(HttpStatus.OK.value(), "Resources fetched successfully", dtos);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return ResponseEntity.ok(response);
       }
 
       @Override
       public ResponseEntity<ApiResponse<ResourceResponseDto>> updateResource(ResourceRequestDto dto, Long id) {
-            return null;
+
+            ApiResponse<ResourceResponseDto> response = new ApiResponse<>();
+
+            Optional<Resources> resourcesOpt = resourceRepository.findById(id);
+            if (resourcesOpt.isEmpty()) {
+                  response.responseMethod(HttpStatus.NOT_FOUND.value(), "Resource not found", null);
+                  return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+            Resources resourceToUpdate = resourcesOpt.get();
+
+            if (dto.getName() != null) resourceToUpdate.setName(dto.getName());
+            if (dto.getType() != null) resourceToUpdate.setType(dto.getType());
+            if (dto.getDescription() != null) resourceToUpdate.setDescription(dto.getDescription());
+            if (dto.getCapacity() != null) resourceToUpdate.setCapacity(dto.getCapacity());
+            if (dto.getActive() != null) resourceToUpdate.setActive(dto.getActive());
+
+            Resources savedResource = resourceRepository.save(resourceToUpdate);
+
+            ResourceResponseDto updatedDto = mapperUtil.toDto(savedResource, ResourceResponseDto.class);
+
+            response.responseMethod(HttpStatus.OK.value(), "Resource updated successfully", updatedDto);
+            return ResponseEntity.ok(response);
       }
+
 
       @Override
       public ResponseEntity<ApiResponse<Void>> deleteResource(Long id) {
-            return null;
+
+            ApiResponse<Void> response = new ApiResponse<>();
+            Optional<Resources> resources = resourceRepository.findById(id);
+
+            if (resources.isEmpty()) {
+                  response.responseMethod(HttpStatus.NOT_FOUND.value(), "Resource not found", null);
+                  return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+
+            resourceRepository.deleteById(id);
+            response.responseMethod(HttpStatus.OK.value(), "Resource deleted successfully", null);
+            return ResponseEntity.ok(response);
       }
+
+
 }

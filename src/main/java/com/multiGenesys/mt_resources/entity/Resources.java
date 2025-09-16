@@ -33,7 +33,7 @@ public class Resources extends BaseEntity {
 
       private Boolean active;
 
-      @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL, orphanRemoval = true)
+      @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL)
       private List<Reservation> reservations;
 
 }

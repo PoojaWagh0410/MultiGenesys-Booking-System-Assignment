@@ -29,4 +29,16 @@ public class ResourceController {
       ResponseEntity<?> getAllResource(int page, int size){
             return resourceService.getAllResources(page, size);
       }
+
+      @PutMapping("/{id}")
+      ResponseEntity<?> updateResource(@RequestBody ResourceRequestDto dto, @PathVariable Long id){
+            return resourceService.updateResource(dto,id);
+      }
+
+      @DeleteMapping("{id}")
+      ResponseEntity<?> deletResource(@PathVariable Long id){
+            return resourceService.deleteResource(id);
+      }
+
+
 }
